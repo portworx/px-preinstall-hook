@@ -4,11 +4,11 @@ sudo: required
 services:
   - docker
 script:
-  - docker build -t portworx/px-etcd-preinstall-hook:latest .
+  - docker build -t ${DOCKER_HUB_REPO}/${DOCKER_HUB_IMAGE}:${DOCKER_HUB_TAG} .
 after_success:
   - if [ "${TRAVIS_BRANCH}" == "master" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
-      echo "${REGISTRY_PASS}" | docker login -u="${REGISTRY_USER}" --password-stdin;
-      sudo docker push portworx/px-etcd-preinstall-hook:latest;
+      echo "${DOCKER_PASS}" | docker login -u="${DOCKER_USER}" --password-stdin;
+      sudo docker push ${DOCKER_HUB_REPO}/${DOCKER_HUB_IMAGE}:${DOCKER_HUB_TAG};
     fi
 notifications:
   email:
