@@ -1,4 +1,4 @@
-language: go
+language: ruby
 sudo: required
 
 services:
