@@ -1,4 +1,4 @@
-language: ruby
+language: go
 sudo: required
 
 services:
@@ -8,7 +8,7 @@ script:
 after_success:
   - if [ "${TRAVIS_BRANCH}" == "master" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
       echo "${REGISTRY_PASS}" | docker login -u="${REGISTRY_USER}" --password-stdin;
-      make deploy;
+      sudo docker push portworx/px-etcd-preinstall-hook:latest;
     fi
 notifications:
   email:
