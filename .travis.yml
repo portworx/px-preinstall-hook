@@ -1,0 +1,19 @@
+language: ruby
+sudo: required
+
+services:
+  - docker
+script:
+  - docker build -t portworx/px-etcd-preinstall-hook:latest .
+after_success:
+  - if [ "${TRAVIS_BRANCH}" == "master" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+      echo "${REGISTRY_PASS}" | docker login -u="${REGISTRY_USER}" --password-stdin;
+      make deploy;
+    fi
+notifications:
+  email:
+    recipients:
+      - hrishi@portworx.com
+      - harsh@portworx.com
+    on_success: change
+    on_failure: always  
